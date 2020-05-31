@@ -23,3 +23,8 @@ type Informer interface {
 	Get(Location) lifeform.Shaper // get life form from the location
 	Size() (int, int)             // returns size of the world
 }
+
+type CheckInformer interface {
+	Checker
+	Informer
+}
