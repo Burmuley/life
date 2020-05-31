@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Burmuley/life/lifeform"
+	"github.com/Burmuley/life/ui"
 	"github.com/Burmuley/life/world"
 	"github.com/rivo/tview"
 )
@@ -14,7 +15,7 @@ type UI struct {
 	name  string
 }
 
-func New() *UI {
+func New() ui.UI {
 	return &UI{name: "Console"}
 }
 
