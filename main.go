@@ -8,6 +8,7 @@ import (
 	"github.com/Burmuley/life/lifeform/simplecell"
 	"github.com/Burmuley/life/ui"
 	"github.com/Burmuley/life/world"
+	"github.com/Burmuley/life/world/convey"
 )
 
 func fillWorld(w world.Explorer) {
@@ -31,11 +32,11 @@ func fillWorld(w world.Explorer) {
 }
 
 func main() {
-	convey := world.NewConvey(30, 50)
-	fillWorld(convey)
+	conveyWorld := convey.New(30, 50)
+	fillWorld(conveyWorld)
 
 	fabric := ui.NewFabric()
 	appUi := fabric.Get("Console")
-	appUi.SetWorld(convey)
+	appUi.SetWorld(conveyWorld)
 	appUi.Run()
 }

@@ -1,6 +1,9 @@
-package world
+package convey
 
-import "github.com/Burmuley/life/lifeform"
+import (
+	"github.com/Burmuley/life/lifeform"
+	"github.com/Burmuley/life/world"
+)
 
 type Convey struct {
 	grid         [][]lifeform.Shaper
@@ -17,11 +20,11 @@ func (c *Convey) Size() (x, y int) {
 	return
 }
 
-func (c *Convey) Get(l Location) lifeform.Shaper {
+func (c *Convey) Get(l world.Location) lifeform.Shaper {
 	return c.grid[l.Col][l.Row]
 }
 
-func (c *Convey) Update(l Location) {
+func (c *Convey) Update(l world.Location) {
 	c.grid[l.Col][l.Row].Update()
 }
 
@@ -33,7 +36,7 @@ func (c *Convey) UpdateAll() {
 	}
 }
 
-func (c *Convey) Check(l Location) lifeform.State {
+func (c *Convey) Check(l world.Location) lifeform.State {
 	maxR, maxC := c.Size()                  // size of the world
 	neighbors := make([]lifeform.Shaper, 0) // list of neighbors
 	state := lifeform.DEAD                  // default state
@@ -86,16 +89,16 @@ func (c *Convey) Check(l Location) lifeform.State {
 func (c *Convey) CheckAll() {
 	for col := range c.grid {
 		for row := range c.grid[col] {
-			c.Check(Location{row, col})
+			c.Check(world.Location{row, col})
 		}
 	}
 }
 
-func (c *Convey) SetLife(lf lifeform.Shaper, l Location) {
+func (c *Convey) SetLife(lf lifeform.Shaper, l world.Location) {
 	c.grid[l.Col][l.Row] = lf
 }
 
-func NewConvey(row, col int) *Convey {
+func New(row, col int) *Convey {
 	convey := &Convey{
 		grid:         make([][]lifeform.Shaper, col),
 		minNeighbors: 3,

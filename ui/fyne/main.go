@@ -10,11 +10,11 @@ type UI struct {
 }
 
 func (u *UI) SetWorld(w world.Explorer) {
-	panic("implement me")
+	u.world = w
 }
 
 func (u *UI) Name() string {
-	panic("implement me")
+	return "Fyne"
 }
 
 func (u *UI) Run() {
