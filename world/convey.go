@@ -18,11 +18,11 @@ func (c *Convey) Size() (x, y int) {
 }
 
 func (c *Convey) Get(l Location) lifeform.Shaper {
-	return c.grid[l.Y][l.X]
+	return c.grid[l.Col][l.Row]
 }
 
 func (c *Convey) Update(l Location) {
-	c.grid[l.Y][l.X].Update()
+	c.grid[l.Col][l.Row].Update()
 }
 
 func (c *Convey) UpdateAll() {
@@ -34,32 +34,32 @@ func (c *Convey) UpdateAll() {
 }
 
 func (c *Convey) Check(l Location) lifeform.State {
-	maxX, maxY := c.Size()                  // size of the world
+	maxR, maxC := c.Size()                  // size of the world
 	neighbors := make([]lifeform.Shaper, 0) // list of neighbors
 	state := lifeform.DEAD                  // default state
-	cell := c.grid[l.Y][l.X]
+	cell := c.grid[l.Col][l.Row]
 
 	// iterate through all neighbors of the Location
-	sx := l.X - 1
-	sy := l.Y - 1
+	startR := l.Row - 1
+	startC := l.Col - 1
 
 	// check for min boundaries
-	if sx < 0 {
-		sx = l.X
+	if startR < 0 {
+		startR = l.Row
 	}
 
-	if sy < 0 {
-		sy = l.Y
+	if startC < 0 {
+		startC = l.Col
 	}
 
-	for y := sy; y <= l.Y+1 && y < maxY; y++ {
-		for x := sx; x <= l.X+1 && x < maxX; x++ {
-			if x == l.X && y == l.Y {
+	for col := startC; col <= l.Col+1 && col < maxC; col++ {
+		for row := startR; row <= l.Row+1 && row < maxR; row++ {
+			if row == l.Row && col == l.Col {
 				continue
 			}
 
 			// only add ALIVE neighbors
-			tCell := c.grid[y][x]
+			tCell := c.grid[col][row]
 			if tCell.State() == lifeform.ALIVE {
 				neighbors = append(neighbors, tCell)
 			}
@@ -84,25 +84,25 @@ func (c *Convey) Check(l Location) lifeform.State {
 }
 
 func (c *Convey) CheckAll() {
-	for y := range c.grid {
-		for x := range c.grid[y] {
-			c.Check(Location{x, y})
+	for col := range c.grid {
+		for row := range c.grid[col] {
+			c.Check(Location{row, col})
 		}
 	}
 }
 
 func (c *Convey) SetLife(lf lifeform.Shaper, l Location) {
-	c.grid[l.Y][l.X] = lf
+	c.grid[l.Col][l.Row] = lf
 }
 
-func NewConvey(x, y int) *Convey {
+func NewConvey(row, col int) *Convey {
 	convey := &Convey{
-		grid:         make([][]lifeform.Shaper, y),
+		grid:         make([][]lifeform.Shaper, col),
 		minNeighbors: 3,
 	}
 
-	for i := 0; i < y; i++ {
-		convey.grid[i] = make([]lifeform.Shaper, x)
+	for i := 0; i < col; i++ {
+		convey.grid[i] = make([]lifeform.Shaper, row)
 	}
 	return convey
 }

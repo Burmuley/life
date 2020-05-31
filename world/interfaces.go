@@ -3,8 +3,8 @@ package world
 import "github.com/Burmuley/life/lifeform"
 
 type Location struct {
-	X int
-	Y int
+	Row int
+	Col int
 }
 
 type Maker interface {

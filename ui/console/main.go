@@ -59,10 +59,10 @@ func (u *UI) Run() {
 
 func UpdateTable(t *tview.Table, w world.Informer) {
 	maxX, maxY := w.Size()
-	for dy := 0; dy < maxY; dy++ {
-		for dx := 0; dx < maxX; dx++ {
-			l := world.Location{dx, dy}
-			t.SetCellSimple(dx, dy, GetSymbol(w.Get(l)))
+	for col := 0; col < maxY; col++ {
+		for row := 0; row < maxX; row++ {
+			l := world.Location{row, col}
+			t.SetCellSimple(row, col, GetSymbol(w.Get(l)))
 		}
 	}
 }

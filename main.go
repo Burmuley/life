@@ -13,19 +13,19 @@ import (
 func fillWorld(w world.WholeWorld) {
 	rand.Seed(time.Now().UnixNano())
 	n := 20000
-	maxX, maxY := w.Size()
+	maxR, maxC := w.Size()
 
-	for y := 0; y < maxY; y++ {
-		for x := 0; x < maxX; x++ {
-			l := world.Location{x, y}
-			r := rand.Intn(n)
-			s := lifeform.DEAD
+	for col := 0; col < maxC; col++ {
+		for row := 0; row < maxR; row++ {
+			l := world.Location{row, col}
+			rnd := rand.Intn(n)
+			state := lifeform.DEAD
 
-			if r > n/2 {
-				s = lifeform.ALIVE
+			if rnd > n/2 {
+				state = lifeform.ALIVE
 			}
 
-			w.SetLife(simplecell.New(s), l)
+			w.SetLife(simplecell.New(state), l)
 		}
 	}
 }
@@ -35,7 +35,7 @@ func main() {
 	fillWorld(convey)
 
 	fabric := ui.NewFabric()
-	ui := fabric.Get("Console")
-	ui.SetWorld(convey)
-	ui.Run()
+	appUi := fabric.Get("Console")
+	appUi.SetWorld(convey)
+	appUi.Run()
 }
