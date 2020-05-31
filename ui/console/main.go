@@ -69,7 +69,7 @@ func UpdateTable(t *tview.Table, w world.Informer) {
 
 func GetSymbol(c lifeform.Shaper) string {
 	syms := map[int]string{
-		1: "o",
+		1: "\u2588",
 		2: " ",
 	}
 
