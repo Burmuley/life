@@ -5,23 +5,42 @@ import (
 	"github.com/Burmuley/life/ui/fyne"
 )
 
+const (
+	uiConsole string = "Console"
+	uiFyne    string = "Fyne"
+)
+
+func getUI(name string) UI {
+	switch name {
+	case uiConsole:
+		return console.New()
+	case uiFyne:
+		return fyne.New()
+	default:
+		return nil
+
+	}
+}
+
+type fabricFunc func(string) UI
+
 type Fabric struct {
-	uis map[string]func() UI
+	uis map[string]fabricFunc
 }
 
 func NewFabric() *Fabric {
-	f := &Fabric{make(map[string]func() UI, 0)}
+	f := &Fabric{make(map[string]fabricFunc, 0)}
 	// fill known UIs
-	f.Add("Console", console.New)
-	f.Add("Fyne", fyne.New)
+	f.Add(uiConsole, getUI)
+	f.Add(uiFyne, getUI)
 	return f
 }
 
 func (f *Fabric) Get(ui string) UI {
-	return f.uis[ui]()
+	return f.uis[ui](ui)
 }
 
-func (f *Fabric) Add(ui string, uiFunc func() UI) {
+func (f *Fabric) Add(ui string, uiFunc fabricFunc) {
 	f.uis[ui] = uiFunc
 }
 

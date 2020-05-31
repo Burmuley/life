@@ -1,16 +1,15 @@
 package fyne
 
 import (
-	"github.com/Burmuley/life/ui"
 	"github.com/Burmuley/life/world"
 )
 
 type UI struct {
-	world world.WholeWorld
+	world world.Explorer
 	name  string
 }
 
-func (u *UI) SetWorld(w world.WholeWorld) {
+func (u *UI) SetWorld(w world.Explorer) {
 	panic("implement me")
 }
 
@@ -22,6 +21,6 @@ func (u *UI) Run() {
 	panic("implement me")
 }
 
-func New() ui.UI {
+func New() *UI {
 	return &UI{name: "Fyne"}
 }

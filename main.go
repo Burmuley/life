@@ -10,7 +10,7 @@ import (
 	"github.com/Burmuley/life/world"
 )
 
-func fillWorld(w world.WholeWorld) {
+func fillWorld(w world.Explorer) {
 	rand.Seed(time.Now().UnixNano())
 	n := 20000
 	maxR, maxC := w.Size()

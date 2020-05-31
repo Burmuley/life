@@ -5,21 +5,20 @@ import (
 	"time"
 
 	"github.com/Burmuley/life/lifeform"
-	"github.com/Burmuley/life/ui"
 	"github.com/Burmuley/life/world"
 	"github.com/rivo/tview"
 )
 
 type UI struct {
-	world world.WholeWorld
+	world world.Explorer
 	name  string
 }
 
-func New() ui.UI {
+func New() *UI {
 	return &UI{name: "Console"}
 }
 
-func (u *UI) SetWorld(w world.WholeWorld) {
+func (u *UI) SetWorld(w world.Explorer) {
 	u.world = w
 }
 

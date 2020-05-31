@@ -31,7 +31,7 @@ type CheckInformer interface {
 	Informer
 }
 
-type WholeWorld interface {
+type Explorer interface {
 	Informer
 	Checker
 	Maker
