@@ -5,7 +5,6 @@ import "github.com/Burmuley/life/lifeform"
 type Convey struct {
 	grid         [][]lifeform.Shaper
 	minNeighbors int
-	maxNeighbors int
 }
 
 func (c *Convey) Size() (x, y int) {
@@ -56,8 +55,9 @@ func (c *Convey) Check(l Location) lifeform.State {
 			}
 
 			// only add ALIVE neighbors
-			if c.grid[y][x].State() == lifeform.ALIVE {
-				neighbors = append(neighbors, c.grid[y][x])
+			tCell := c.grid[y][x]
+			if tCell.State() == lifeform.ALIVE {
+				neighbors = append(neighbors, tCell)
 			}
 		}
 	}
@@ -76,10 +76,6 @@ func (c *Convey) Check(l Location) lifeform.State {
 		state = lifeform.ALIVE
 	}
 
-	//if n == c.minNeighbors && n < c.maxNeighbors {
-	//	state = lifeform.ALIVE
-	//}
-
 	cell.SetNext(state)
 	return state
 }
@@ -92,7 +88,6 @@ func NewConvey(x, y int) *Convey {
 	convey := &Convey{
 		grid:         make([][]lifeform.Shaper, y),
 		minNeighbors: 3,
-		maxNeighbors: 3,
 	}
 
 	for i := 0; i < y; i++ {
