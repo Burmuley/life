@@ -27,14 +27,14 @@ func (u *UI) Name() string {
 }
 
 func (u *UI) Run() {
-	maxX, maxY := u.world.Size()
+	maxR, maxC := u.world.Size()
 
-	rows := make([]int, maxX)
+	rows := make([]int, maxR)
 	for r := range rows {
 		rows[r] = 1
 	}
 
-	cols := make([]int, maxY)
+	cols := make([]int, maxC)
 	for c := range cols {
 		cols[c] = 1
 	}
@@ -61,9 +61,9 @@ func (u *UI) Run() {
 }
 
 func UpdateTable(t *tview.Table, w world.Informer) {
-	maxX, maxY := w.Size()
-	for col := 0; col < maxY; col++ {
-		for row := 0; row < maxX; row++ {
+	maxR, maxC := w.Size()
+	for col := 0; col < maxC; col++ {
+		for row := 0; row < maxR; row++ {
 			l := world.Location{row, col}
 			t.SetCellSimple(row, col, GetSymbol(w.Get(l)))
 		}
