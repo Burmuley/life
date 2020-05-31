@@ -21,7 +21,11 @@ func (c *Convey) Get(l Location) lifeform.Shaper {
 	return c.grid[l.Y][l.X]
 }
 
-func (c *Convey) Update() {
+func (c *Convey) Update(l Location) {
+	c.grid[l.Y][l.X].Update()
+}
+
+func (c *Convey) UpdateAll() {
 	for _, i := range c.grid {
 		for _, k := range i {
 			k.Update()
@@ -67,7 +71,6 @@ func (c *Convey) Check(l Location) lifeform.State {
 	// A dead cell with exactly three live neighbors becomes a live cell (birth).
 	// A live cell with two or three live neighbors stays alive (survival).
 	// In all other cases, a cell dies or remains dead (overcrowding or loneliness).
-
 	if cell.State() == lifeform.DEAD && n == c.minNeighbors {
 		state = lifeform.ALIVE
 	}
@@ -78,6 +81,14 @@ func (c *Convey) Check(l Location) lifeform.State {
 
 	cell.SetNext(state)
 	return state
+}
+
+func (c *Convey) CheckAll() {
+	for y := range c.grid {
+		for x := range c.grid[y] {
+			c.Check(Location{x, y})
+		}
+	}
 }
 
 func (c *Convey) SetLife(lf lifeform.Shaper, l Location) {

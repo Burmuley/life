@@ -13,10 +13,12 @@ type Maker interface {
 
 type Checker interface {
 	Check(Location) lifeform.State // Checks life form at the location for neighbors and sets/returns next state
+	CheckAll()
 }
 
 type Processor interface {
-	Update() // runs against all cells in the world and updates current state to the next
+	Update(Location) // runs against all cells in the world and updates current state to the next
+	UpdateAll()
 }
 
 type Informer interface {
@@ -27,4 +29,11 @@ type Informer interface {
 type CheckInformer interface {
 	Checker
 	Informer
+}
+
+type WholeWorld interface {
+	Informer
+	Checker
+	Maker
+	Processor
 }
