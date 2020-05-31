@@ -1,6 +1,7 @@
 package console
 
 import (
+	"log"
 	"time"
 
 	"github.com/Burmuley/life/lifeform"
@@ -54,7 +55,9 @@ func (u *UI) Run() {
 		}
 	}()
 
-	app.Run()
+	if err := app.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func UpdateTable(t *tview.Table, w world.Informer) {
