@@ -43,13 +43,13 @@ func (u *UI) Run() {
 	table := tview.NewTable().SetBorders(false)
 	app.SetRoot(table, true)
 
-	UpdateTable(table, u.world)
+	updateTable(table, u.world)
 
 	go func() {
 		for {
 			u.world.CheckAll()
 			u.world.UpdateAll()
-			UpdateTable(table, u.world)
+			updateTable(table, u.world)
 			time.Sleep(time.Millisecond * 150)
 			app.Draw()
 		}
@@ -60,20 +60,20 @@ func (u *UI) Run() {
 	}
 }
 
-func UpdateTable(t *tview.Table, w world.Informer) {
+func updateTable(t *tview.Table, w world.Informer) {
 	maxR, maxC := w.Size()
 	for col := 0; col < maxC; col++ {
 		for row := 0; row < maxR; row++ {
 			l := world.Location{row, col}
-			t.SetCellSimple(row, col, GetSymbol(w.Get(l)))
+			t.SetCellSimple(row, col, getSymbol(w.Get(l)))
 		}
 	}
 }
 
-func GetSymbol(c lifeform.Shaper) string {
+func getSymbol(c lifeform.Shaper) string {
 	syms := map[int]string{
-		1: "\u2588",
-		2: " ",
+		int(lifeform.ALIVE): "\u2588",
+		int(lifeform.DEAD):  " ",
 	}
 
 	return syms[int(c.State())]

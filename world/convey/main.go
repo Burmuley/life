@@ -109,3 +109,10 @@ func New(row, col int) *Convey {
 	}
 	return convey
 }
+
+func NewFilled(row, col int, filler func(explorer world.Explorer)) *Convey {
+	convey := New(row, col)
+	filler(convey)
+
+	return convey
+}

@@ -1,6 +1,9 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"log"
 	"math/rand"
 	"time"
 
@@ -13,12 +16,15 @@ import (
 
 func fillWorld(w world.Explorer) {
 	rand.Seed(time.Now().UnixNano())
-	n := 20000
+	n := 200000
 	maxR, maxC := w.Size()
 
 	for col := 0; col < maxC; col++ {
 		for row := 0; row < maxR; row++ {
-			l := world.Location{row, col}
+			l := world.Location{
+				Row: row,
+				Col: col,
+			}
 			rnd := rand.Intn(n)
 			state := lifeform.DEAD
 
@@ -31,12 +37,26 @@ func fillWorld(w world.Explorer) {
 	}
 }
 
+var cmdui string
+
 func main() {
-	conveyWorld := convey.New(30, 50)
-	fillWorld(conveyWorld)
+	var appUi ui.UI
+	flag.StringVar(&cmdui, "ui", "console", "choose UI: 'console' or 'gui'")
+	flag.Parse()
+
+	conveyWorld := convey.NewFilled(30, 50, fillWorld)
 
 	fabric := ui.NewFabric()
-	appUi := fabric.Get("Console")
+
+	switch cmdui {
+	case "console":
+		appUi = fabric.Get("Console")
+	case "gui":
+		appUi = fabric.Get("Fyne")
+	default:
+		log.Fatal(fmt.Sprintf("Unknown UI provided: %s", cmdui))
+	}
+
 	appUi.SetWorld(conveyWorld)
 	appUi.Run()
 }
