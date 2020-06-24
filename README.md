@@ -10,3 +10,8 @@
 $ go build main.go -o life
 $ ./life
 ```
+
+By default `console` UI will be run. To watch life with GUI use option `-ui`:
+```bash
+$ ./life -ui gui
+```
